@@ -1,0 +1,9 @@
+asgiref==3.11.1
+Django==6.0.3
+djangorestframework==3.17.0
+geographiclib==2.1
+geopy==2.4.1
+sqlparse==0.5.5
+celery==5.6.3
+redis==7.4.0
+requests==2.31.0
