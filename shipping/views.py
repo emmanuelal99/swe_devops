@@ -1,3 +1,14 @@
+"""HTTP views and API endpoints for the Shipping application.
+
+This module powers:
+- The public tracking experience (homepage + tracking detail view)
+- Static marketing pages (about / contact / services)
+- Support ticket submission flows
+- The REST API used by the virtual warehouse scanner.
+
+Documentation header updated on 2026‑04‑14.
+"""
+
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
