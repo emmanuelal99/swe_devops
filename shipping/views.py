@@ -7,7 +7,7 @@ from django.contrib import messages
 from .models import Shipment, TrackingEvent, Waypoint, SupportTicket
 from .serializers import ScannerPayloadSerializer
 from .forms import ContactMessageForm
-from .tasks import send_async_email
+from .task import send_async_email
 
 # Helper to keep the view clean
 def calculate_progress(events):
