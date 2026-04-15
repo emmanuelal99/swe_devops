@@ -97,3 +97,29 @@ class SupportTicket(models.Model):
 
     def __str__(self):
         return f"Ticket for {self.shipment.tracking_id} - Resolved: {self.is_resolved}"
+    
+
+class ContactMessage(models.Model):
+    SERVICE_CHOICES = [
+        ('International Express', 'International Express'),
+        ('Ocean Freight', 'Ocean Freight'),
+        ('Road Freight', 'Road Freight'),
+        ('Warehousing & Fulfillment', 'Warehousing & Fulfillment'),
+        ('Customs Clearance', 'Customs Clearance'),
+        ('General Enquiry', 'General Enquiry'),
+        ('Track a Shipment', 'Track a Shipment'),
+    ]
+
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    service_enquiry = models.CharField(max_length=50, choices=SERVICE_CHOICES)
+    origin_country = models.CharField(max_length=100, blank=True, null=True)
+    destination_country = models.CharField(max_length=100, blank=True, null=True)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_resolved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.service_enquiry}"
