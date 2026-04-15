@@ -1,14 +1,3 @@
-"""HTTP views and API endpoints for the Shipping application.
-
-This module powers:
-- The public tracking experience (homepage + tracking detail view)
-- Static marketing pages (about / contact / services)
-- Support ticket submission flows
-- The REST API used by the virtual warehouse scanner.
-
-Documentation header updated on 2026‑04‑14.
-"""
-
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -17,6 +6,8 @@ import json
 from django.contrib import messages
 from .models import Shipment, TrackingEvent, Waypoint, SupportTicket
 from .serializers import ScannerPayloadSerializer
+from .forms import ContactMessageForm
+from .tasks import send_async_email
 
 # Helper to keep the view clean
 def calculate_progress(events):
@@ -92,9 +83,6 @@ def tracking_page(request, tracking_id):
 def about_page(request):
     return render(request, 'shipping/about.html')
 
-def contact_page(request):
-    return render(request, 'shipping/contact.html')
-
 def service_page(request):
     return render(request, 'shipping/service.html')
 
@@ -146,4 +134,28 @@ class ScannerUpdateAPI(APIView):
             return Response({"success": "Tracking updated"}, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
+
+def contact_page(request):
+    if request.method == 'POST':
+        form = ContactMessageForm(request.POST)
+        
+        if form.is_valid():
+            new_lead = form.save()
+            
+            # trigger celery task to send email to admin team
+            send_async_email.delay(
+                subject=f"New Website Lead: {new_lead.service_enquiry}",
+                message=f"Name: {new_lead.first_name}\nEmail: {new_lead.email}\nMessage: {new_lead.message}",
+                recipient_list=['admin@yourlogistics.com']
+            )
+            
+            messages.success(request, "Thank you! Your message has been sent.")
+            return redirect('contact_page')
+        else:
+            
+            print("FORM ERRORS:", form.errors) 
+            messages.error(request, "Submission failed. Please check the form.")
+            
+    return render(request, 'shipping/contact.html')
