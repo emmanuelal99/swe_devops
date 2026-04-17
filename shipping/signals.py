@@ -4,7 +4,7 @@ from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from django.core.mail import send_mail
 from .models import Shipment, Waypoint, Facility
-from .task import send_async_email
+from .tasks import send_async_email
 
 
 def get_closest_facility(target_lat, target_lon):
@@ -49,7 +49,6 @@ def generate_dynamic_route_and_distance(sender, instance, created, **kwargs):
                 # Always start the route with the Origin
                 raw_route_data.append({'name': instance.origin, 'lat': origin_geo.latitude, 'lon': origin_geo.longitude})
                 
-                # --- THE HYBRID DISTANCE ENGINE ---
                 # Set  threshold ( 50 miles)
                 if direct_distance >= 50: 
                     # It's a long distance! Look for hubs.
@@ -118,6 +117,7 @@ def send_shipment_creation_email(sender, instance, created, **kwargs):
         Hello,
         
         Your new shipment has been officially registered in our logistics network.
+        Login to our website to track your package example@.com/track/{instance.tracking_id}
         
         Tracking ID: {instance.tracking_id}
         Origin: {instance.origin}

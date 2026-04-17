@@ -7,7 +7,7 @@ from django.contrib import messages
 from .models import Shipment, TrackingEvent, Waypoint, SupportTicket
 from .serializers import ScannerPayloadSerializer
 from .forms import ContactMessageForm
-from .task import send_async_email
+from .tasks import send_async_email
 
 # keep the view clean
 def calculate_progress(events):
@@ -56,7 +56,7 @@ def tracking_page(request, tracking_id):
     try:
         shipment = Shipment.objects.get(tracking_id=tracking_id)
     except Shipment.DoesNotExist:
-        # This pins the error to the user's session
+        # spins the error to the user's session
         messages.error(request, f"No shipment found with ID: {tracking_id}")
         return redirect('homepage')
     
@@ -89,14 +89,14 @@ def service_page(request):
 
 def submit_support_ticket(request, tracking_id):
     if request.method == 'POST':
-        # Find the specific shipment
+        # Find specific shipment
         shipment = get_object_or_404(Shipment, tracking_id=tracking_id)
         
-        # Grab the data from the HTML form
+        # Get data from the HTML form
         email = request.POST.get('customer_email')
         message = request.POST.get('customer_message')
         
-        # Basic validation to ensure both fields are filled
+        # Ensure both fields are filled
         if email and message:
             SupportTicket.objects.create(
                 shipment=shipment,
@@ -148,7 +148,7 @@ def contact_page(request):
             send_async_email.delay(
                 subject=f"New Website Lead: {new_lead.service_enquiry}",
                 message=f"Name: {new_lead.first_name}\nEmail: {new_lead.email}\nMessage: {new_lead.message}",
-                recipient_list=['admin@yourlogistics.com']
+                recipient_list=['emmanuelal99700@gmail.com']
             )
             
             messages.success(request, "Thank you! Your message has been sent.")

@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.conf import settings
 from django.core.mail import send_mail 
 import random
-from .task import send_async_email
+from .tasks import send_async_email
 
 # --- CUSTOM ID GENERATOR ---
 def generate_tracking_id():
@@ -82,7 +82,7 @@ class SupportTicket(models.Model):
             send_async_email.delay(
                 subject=f"URGENT: New Support Ticket for {self.shipment.tracking_id}",
                 message=f"A customer has requested support.\n\nTracking ID: {self.shipment.tracking_id}\nCustomer: {self.customer_email}\nMessage: {self.customer_message}\n\nLog in to the admin panel to reply.",
-                recipient_list=['admin@yourlogistics.com']
+                recipient_list=['emmanuelal99700@gmail.com']
             )
 
         # TRIGGER 2: Admin writes a reply -> Email Customer via Celery
