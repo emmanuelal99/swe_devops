@@ -2,7 +2,7 @@ from django.urls import path
 from .views import homepage, tracking_page, ScannerUpdateAPI, about_page, contact_page, service_page, submit_support_ticket
 
 urlpatterns = [
-    # This catches the empty string and loads the homepage search bar
+    
     path('', homepage, name='homepage'),
     path('about/', about_page, name='about_page'),
     path('contact/', contact_page, name='contact_page'),

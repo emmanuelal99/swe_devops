@@ -50,7 +50,7 @@ def generate_dynamic_route_and_distance(sender, instance, created, **kwargs):
                 raw_route_data.append({'name': instance.origin, 'lat': origin_geo.latitude, 'lon': origin_geo.longitude})
                 
                 # --- THE HYBRID DISTANCE ENGINE ---
-                # Set  threshold (e.g., 50 miles)
+                # Set  threshold ( 50 miles)
                 if direct_distance >= 50: 
                     # It's a long distance! Look for hubs.
                     origin_hub = get_closest_facility(origin_geo.latitude, origin_geo.longitude)
@@ -64,8 +64,8 @@ def generate_dynamic_route_and_distance(sender, instance, created, **kwargs):
                             # It's a national route across two hubs (4 stops)
                             raw_route_data.append({'name': origin_hub.name, 'lat': origin_hub.latitude, 'lon': origin_hub.longitude})
                             raw_route_data.append({'name': dest_hub.name, 'lat': dest_hub.latitude, 'lon': dest_hub.longitude})
-                
-                # Always end the route with the Destination
+
+                # End the route with the Destination
                 raw_route_data.append({'name': instance.destination, 'lat': dest_geo.latitude, 'lon': dest_geo.longitude})
                 
             else:
@@ -76,7 +76,7 @@ def generate_dynamic_route_and_distance(sender, instance, created, **kwargs):
             print(f"Routing Error: {e}")
             raw_route_data = [{'name': instance.origin, 'lat': 0.0, 'lon': 0.0}, {'name': instance.destination, 'lat': 0.0, 'lon': 0.0}]
 
-        # 3. Clean duplicates (prevents errors if the user's address IS the hub)
+        # 3. Prevents errors if the user's address IS the hub
         final_route = []
         for stop in raw_route_data:
             if not final_route or final_route[-1]['name'] != stop['name']:

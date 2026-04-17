@@ -51,12 +51,12 @@ class SupportTicketAdmin(admin.ModelAdmin):
 
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
-    # 1. At-a-glance columns in the list view
+    # 1. Columns to display in the admin list view
     list_display = ('first_name', 'last_name', 'email', 'service_enquiry', 'created_at', 'is_resolved')
     
-    # 2. Sidebar filters for quick triaging
+    # 2. Sidebar filters for quick sorting
     list_filter = ('is_resolved', 'service_enquiry', 'created_at')
-    
+
     # 3. Search bar functionality
     search_fields = ('first_name', 'last_name', 'email', 'message')
     
@@ -66,7 +66,7 @@ class ContactMessageAdmin(admin.ModelAdmin):
     # 5. Protect the timestamp from being edited
     readonly_fields = ('created_at',)
     
-    # 6. Default sorting (newest messages at the top)
+    # 6. Default sorting for newest messages at the top
     ordering = ('-created_at',)
 
     # 7. Custom bulk action for the admin team

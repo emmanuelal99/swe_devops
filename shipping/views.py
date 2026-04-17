@@ -9,7 +9,7 @@ from .serializers import ScannerPayloadSerializer
 from .forms import ContactMessageForm
 from .task import send_async_email
 
-# Helper to keep the view clean
+# keep the view clean
 def calculate_progress(events):
     if not events.exists():
         return 5
@@ -62,8 +62,8 @@ def tracking_page(request, tracking_id):
     
 
     events = shipment.events.all().order_by('-timestamp')
-    
-    # Context Construction
+
+
     context = {
         'shipment': shipment,
         'waypoints': shipment.waypoints.all(),
@@ -96,7 +96,7 @@ def submit_support_ticket(request, tracking_id):
         email = request.POST.get('customer_email')
         message = request.POST.get('customer_message')
         
-        # Save it to the database
+        # Basic validation to ensure both fields are filled
         if email and message:
             SupportTicket.objects.create(
                 shipment=shipment,
