@@ -37,7 +37,7 @@ def homepage(request):
 def tracking_page(request, tracking_id):
     """
     Handles the core shipment tracking logic, enabling near real-time
-    visibility across the delivery lifecycle.
+    visibility across the delivery lifecycle......
 
     Key Features:
 
