@@ -81,12 +81,12 @@ WSGI_APPLICATION = 'mylogistics.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-    # Local Development Database
+
 DATABASES = {
     'default': {
-     'ENGINE': 'django.db.backends.sqlite3',
-     'NAME': BASE_DIR / 'db.sqlite3',
-     }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
     
 # Password validation
@@ -186,7 +186,7 @@ csrf_origins_str = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,http
 CSRF_TRUSTED_ORIGINS = [url.strip() for url in csrf_origins_str.split(',') if url.strip()]
 
 # Enforce HTTPS and secure cookies ONLY in Production (when DEBUG is False)
-#if not DEBUG:
-#    SECURE_SSL_REDIRECT = True
-#    SESSION_COOKIE_SECURE = True
-#    CSRF_COOKIE_SECURE = True
+if not DEBUG:
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
