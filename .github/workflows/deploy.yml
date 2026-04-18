@@ -2,7 +2,7 @@ name: Deploy LogiTrack to AWS ECR
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "project-setup" ]
 
 jobs:
   build-and-push:
