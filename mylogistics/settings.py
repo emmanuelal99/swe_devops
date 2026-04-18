@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import django
 from dotenv import load_dotenv
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -83,10 +84,11 @@ WSGI_APPLICATION = 'mylogistics.wsgi.application'
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
     
 # Password validation
@@ -162,7 +164,7 @@ if os.environ.get('AWS_STORAGE_BUCKET_NAME'):
 
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
-    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
 
     STORAGES = {
         "default": {
@@ -187,6 +189,6 @@ CSRF_TRUSTED_ORIGINS = [url.strip() for url in csrf_origins_str.split(',') if ur
 
 # Enforce HTTPS and secure cookies ONLY in Production (when DEBUG is False)
 if not DEBUG:
-    SECURE_SSL_REDIRECT = False
+    SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
