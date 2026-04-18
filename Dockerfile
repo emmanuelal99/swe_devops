@@ -8,13 +8,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Install system dependencies required for building psycopg2 (PostgreSQL)
+# Install required system dependencies for LogiTrack database
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Create a virtual environment to hold all installed packages
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
@@ -32,28 +31,24 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Install the lightweight runtime library required by psycopg2
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq5 \
     && rm -rf /var/lib/apt/lists/*
 
-# Create non-root user (security best practice)
+# Create non-root user
 RUN adduser --system --group appuser
 
-# Copy the virtual environment from the builder stage
 COPY --from=builder /opt/venv /opt/venv
 
-# Copy your LogiTrack code
+# Copy LogiTrack code
 COPY . .
 
-# Change ownership to the non-root user
 RUN chown -R appuser:appuser /app
 
 USER appuser
 
 EXPOSE 8000
 
-# The Ultimate Startup Command:
 # 1. Uploads CSS/JS to S3
 # 2. Ensures the PostgreSQL database has the latest tables
 # 3. Boots up Gunicorn to serve traffic
