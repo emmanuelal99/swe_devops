@@ -9,7 +9,7 @@ from .serializers import ScannerPayloadSerializer
 from .forms import ContactMessageForm
 from .tasks import send_async_email
 
-# Helper to keep the view clean
+# keep the view clean
 def calculate_progress(events):
     if not events.exists():
         return 5
@@ -37,7 +37,7 @@ def homepage(request):
 def tracking_page(request, tracking_id):
     """
     Handles the core shipment tracking logic, enabling near real-time
-    visibility across the delivery lifecycle.
+    visibility across the delivery lifecycle......
 
     Key Features:
 
@@ -56,14 +56,14 @@ def tracking_page(request, tracking_id):
     try:
         shipment = Shipment.objects.get(tracking_id=tracking_id)
     except Shipment.DoesNotExist:
-        # This pins the error to the user's session
+        # spins the error to the user's session
         messages.error(request, f"No shipment found with ID: {tracking_id}")
         return redirect('homepage')
     
 
     events = shipment.events.all().order_by('-timestamp')
-    
-    # Context Construction
+
+
     context = {
         'shipment': shipment,
         'waypoints': shipment.waypoints.all(),
@@ -89,14 +89,14 @@ def service_page(request):
 
 def submit_support_ticket(request, tracking_id):
     if request.method == 'POST':
-        # Find the specific shipment
+        # Find specific shipment
         shipment = get_object_or_404(Shipment, tracking_id=tracking_id)
         
-        # Grab the data from the HTML form
+        # Get data from the HTML form
         email = request.POST.get('customer_email')
         message = request.POST.get('customer_message')
         
-        # Save it to the database
+        # Ensure both fields are filled
         if email and message:
             SupportTicket.objects.create(
                 shipment=shipment,
@@ -148,7 +148,7 @@ def contact_page(request):
             send_async_email.delay(
                 subject=f"New Website Lead: {new_lead.service_enquiry}",
                 message=f"Name: {new_lead.first_name}\nEmail: {new_lead.email}\nMessage: {new_lead.message}",
-                recipient_list=['admin@yourlogistics.com']
+                recipient_list=['emmanuelal99700@gmail.com']
             )
             
             messages.success(request, "Thank you! Your message has been sent.")

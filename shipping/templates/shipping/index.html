@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'style.css' %}">
+  
 
 </head>
 <body>
@@ -44,25 +45,14 @@
       <li><a href="{% url 'about_page' %}">About</a></li>
       <li><a href="{% url 'service_page' %}">Services</a></li>
       <li><a href="{% url 'contact_page' %}">Contact</a></li>
-      <li><a href="{% url 'tracking_page' tracking_id='demo' %}" class="nav-cta">Track Your Package</a></li>
+      <li><a href="{% url 'homepage' %}" class="nav-cta">Track Your Package</a></li>
     </ul>
     <div class="hamburger">
       <span></span><span></span><span></span>
     </div>
   </nav>
 
-  {# 
-  DYNAMIC TOAST NOTIFICATION SYSTEM
-  ---------------------------------
-  PURPOSE: Provides non-intrusive, real-time feedback for session messages (e.g., "Tracking ID Not Found").
-  
-  LOGIC:
-  1. Condition: Only renders if the Django 'messages' framework contains data.
-  2. Styling: Uses fixed positioning (top-right) and high-contrast red (#ff4444) to signify alerts.
-  3. UX: Features a 'Slide-In' CSS animation and a manual dismiss (close) button.
-  4. Branding: Matches the 'ON_HOLD' alert color used in the tracking progress bar for visual consistency.
-#}
-
+  <!-- ERROR TOAST NOTIFICATION -->
    {% if messages %}
 <div id="error-toast" style="position: fixed; top: 100px; right: 20px; z-index: 10001; animation: slideIn 0.5s ease-out;">
     {% for message in messages %}
@@ -117,17 +107,17 @@
   <!-- TICKER TAPE -->
   <div class="ticker-wrap">
     <div class="ticker-track">
-      <span class="ticker-item"><span class="ticker-dot"></span>International Express — 220+ Countries</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>International Express — 80+ Countries</span>
       <span class="ticker-item"><span class="ticker-dot"></span>Ocean Freight — FCL &amp; LCL Solutions</span>
       <span class="ticker-item"><span class="ticker-dot"></span>Road Freight — Pan-European Network</span>
-      <span class="ticker-item"><span class="ticker-dot"></span>Warehousing &amp; Fulfillment — 350+ Hubs</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Warehousing &amp; Fulfillment — 50+ Hubs</span>
       <span class="ticker-item"><span class="ticker-dot"></span>Customs Clearance — AEO Certified</span>
       <span class="ticker-item"><span class="ticker-dot"></span>99.8% On-Time Delivery Rate</span>
       <!-- duplicate for seamless loop -->
-      <span class="ticker-item"><span class="ticker-dot"></span>International Express — 220+ Countries</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>International Express — 80+ Countries</span>
       <span class="ticker-item"><span class="ticker-dot"></span>Ocean Freight — FCL &amp; LCL Solutions</span>
       <span class="ticker-item"><span class="ticker-dot"></span>Road Freight — Pan-European Network</span>
-      <span class="ticker-item"><span class="ticker-dot"></span>Warehousing &amp; Fulfillment — 350+ Hubs</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Warehousing &amp; Fulfillment — 50+ Hubs</span>
       <span class="ticker-item"><span class="ticker-dot"></span>Customs Clearance — AEO Certified</span>
       <span class="ticker-item"><span class="ticker-dot"></span>99.8% On-Time Delivery Rate</span>
     </div>
@@ -146,11 +136,11 @@
   <!-- STATS BAR -->
   <div class="stats-bar">
     <div class="stat-item">
-      <div class="stat-num" data-target="220" data-suffix="+">0+</div>
+      <div class="stat-num" data-target="80" data-suffix="+">0+</div>
       <div class="stat-label">Countries Served</div>
     </div>
     <div class="stat-item">
-      <div class="stat-num" data-target="5000000" data-suffix="+">0+</div>
+      <div class="stat-num" data-target="1000" data-suffix="+">0+</div>
       <div class="stat-label">Deliveries / Year</div>
     </div>
     <div class="stat-item">
@@ -174,7 +164,7 @@
         <div class="service-card reveal">
           <div class="service-icon">✈️</div>
           <h3>International Express</h3>
-          <p>Door-to-door express delivery to 220+ countries and territories. Guaranteed next-business-day options available.</p>
+          <p>Door-to-door express delivery to 80+ countries and territories. Guaranteed next-business-day options available.</p>
           <a href="{% url 'service_page' %}" class="service-link">Learn more →</a>
         </div>
         <div class="service-card reveal">
@@ -205,7 +195,7 @@
       <div class="why-visual reveal">
         <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&q=80" alt="Logistics warehouse" />
         <div class="why-visual-badge">
-          <strong>30+</strong>
+          <strong>2</strong>
           <span>Years Experience</span>
         </div>
       </div>
@@ -258,9 +248,9 @@
           <div class="stars">★★★★★</div>
           <p>LogiTrack transformed our supply chain. We went from dreading import delays to confidently promising our customers 5-day delivery from factory to door.</p>
           <div class="tc-author">
-            <div class="tc-avatar">JM</div>
+            <div class="tc-avatar">EA</div>
             <div>
-              <div class="tc-name">James Mitchell</div>
+              <div class="tc-name">EA</div>
               <div class="tc-title">Supply Chain Director, TechCo UK</div>
             </div>
           </div>
@@ -269,9 +259,9 @@
           <div class="stars">★★★★★</div>
           <p>The real-time tracking dashboard is exceptional. We can see exactly where every shipment is, share updates with clients, and resolve issues before they escalate.</p>
           <div class="tc-author">
-            <div class="tc-avatar">SA</div>
+            <div class="tc-avatar">EA</div>
             <div>
-              <div class="tc-name">Sophia Andersson</div>
+              <div class="tc-name">EA</div>
               <div class="tc-title">Operations Lead, Nordic E-Commerce</div>
             </div>
           </div>
@@ -280,9 +270,9 @@
           <div class="stars">★★★★★</div>
           <p>Switching to LogiTrack reduced our shipping costs by 18% while improving delivery times. Their team genuinely understand logistics at a global scale.</p>
           <div class="tc-author">
-            <div class="tc-avatar">KO</div>
+            <div class="tc-avatar">EA</div>
             <div>
-              <div class="tc-name">Kwame Osei</div>
+              <div class="tc-name">EA</div>
               <div class="tc-title">CEO, AfriMarket Retail</div>
             </div>
           </div>
@@ -294,7 +284,7 @@
   <!-- CTA BAND -->
   <div class="cta-band">
     <h2>Ready to Ship<br>Smarter?</h2>
-    <p>Join 12,000+ businesses who trust LogiTrack with their global logistics.</p>
+    <p>Join 1,000+ businesses who trust LogiTrack with their global logistics.</p>
     <div class="cta-btns">
       <a href="{% url 'contact_page' %}" class="btn btn-white">Get a Free Quote →</a>
       <a href="{% url 'service_page' %}" class="btn btn-outline">Explore Services</a>
@@ -309,7 +299,7 @@
           <div class="logo-icon">LG</div>
           Logi<span>Track</span>
         </div>
-        <p>Global logistics partner for businesses of all sizes. Delivering certainty from origin to destination since 1994.</p>
+        <p>Global logistics partner for businesses of all sizes. Delivering certainty from origin to destination since 2026.</p>
       </div>
       <div class="footer-col">
         <h4>Services</h4>

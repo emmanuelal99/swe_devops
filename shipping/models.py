@@ -78,14 +78,16 @@ class SupportTicket(models.Model):
 
         # TRIGGER 1: Customer creates a new ticket -> Email Admin via Celery
         if is_new_ticket:
+            
             send_async_email.delay(
                 subject=f"URGENT: New Support Ticket for {self.shipment.tracking_id}",
                 message=f"A customer has requested support.\n\nTracking ID: {self.shipment.tracking_id}\nCustomer: {self.customer_email}\nMessage: {self.customer_message}\n\nLog in to the admin panel to reply.",
-                recipient_list=['admin@yourlogistics.com']
+                recipient_list=['emmanuelal99700@gmail.com']
             )
 
         # TRIGGER 2: Admin writes a reply -> Email Customer via Celery
         if admin_just_replied:
+            
             send_async_email.delay(
                 subject=f"Update on your shipment: {self.shipment.tracking_id}",
                 message=f"Hello,\n\nOur support team has replied to your inquiry regarding tracking ID {self.shipment.tracking_id}:\n\nAdmin Reply: {self.admin_reply}\n\nOriginal Message: {self.customer_message}",
