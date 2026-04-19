@@ -15,6 +15,6 @@ app.autodiscover_tasks()
 @shared_task
 def simulate_heavy_lifting():
     print("Starting background job: Processing tracking update...")
-    time.sleep(5) # Simulates a task taking 5 seconds
+    time.sleep(5) 
     print("Background job finished! Email sent.")
     return "Task Complete"
