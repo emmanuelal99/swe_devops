@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'mylogistics.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
+        default=os.environ.get('DATABASE_URL', f'sqlite:///{BASE_DIR}/db.sqlite3'),
         conn_max_age=600,
         conn_health_checks=True,
     )
@@ -189,6 +189,6 @@ CSRF_TRUSTED_ORIGINS = [url.strip() for url in csrf_origins_str.split(',') if ur
 
 # Enforce HTTPS and secure cookies ONLY in Production (when DEBUG is False)
 if not DEBUG:
-    SECURE_SSL_REDIRECT = True
+    SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
