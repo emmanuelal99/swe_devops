@@ -2,7 +2,7 @@ name: Deploy LogiTrack to AWS ECR
 
 on:
   push:
-    branches: [ "main", "project-setup", "test-branch" ]
+    branches: [ "main", "project-setup", "test-ranch" ]
 
 jobs:
   build-and-push:
@@ -25,7 +25,6 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build, tag, and push image to Amazon ECR
-        id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: logitrack-web
@@ -35,50 +34,45 @@ jobs:
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-      # --- DEPLOY THE WEB SERVER ---
-      - name: Render Web Task Definition
-        id: web-task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: task-definition.json
-          container-name: logitrack-web
-          image: ${{ steps.build-image.outputs.image }}
-          environment-variables: |
-            DB_HOST=${{ secrets.DB_HOST }}
-            DB_NAME=${{ secrets.DB_NAME }}
-            DB_USER=${{ secrets.DB_USER }}
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            CELERY_BROKER_URL=${{ secrets.CELERY_BROKER_URL }}
+      # --- DEPLOY THE WEB SERVER (COMMENTED OUT FOR PRIMER PUSH) ---
+      # - name: Render Web Task Definition
+      #   id: web-task-def
+      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
+      #   with:
+      #     task-definition: task-definition-web.json
+      #     container-name: logitrack-web
+      #     image: ${{ steps.login-ecr.outputs.registry }}/logitrack-web:${{ github.sha }}
+      #     # INJECT SECRETS DYNAMICALLY HERE
+      #     environment-variables: |
+      #       SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
+      #       DB_PASSWORD=${{ secrets.DB_PASSWORD }}
 
-      - name: Deploy Web Service
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.web-task-def.outputs.task-definition }}
-          service: logitrack-web-service 
-          cluster: logitrack-cluster 
-          wait-for-service-stability: true
+      # - name: Deploy Web Service
+      #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      #   with:
+      #     task-definition: ${{ steps.web-task-def.outputs.task-definition }}
+      #     service: logitrack-web-service 
+      #     cluster: logitrack-cluster 
+      #     wait-for-service-stability: true
 
-      # --- DEPLOY THE CELERY WORKER ---
-      - name: Render Worker Task Definition
-        id: worker-task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: task-definition-worker.json
-          container-name: logitrack-worker
-          image: ${{ steps.build-image.outputs.image }}
-          environment-variables: |
-            DB_HOST=${{ secrets.DB_HOST }}
-            DB_NAME=${{ secrets.DB_NAME }}
-            DB_USER=${{ secrets.DB_USER }}
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            CELERY_BROKER_URL=${{ secrets.CELERY_BROKER_URL }}
+      # --- DEPLOY THE CELERY WORKER (COMMENTED OUT FOR PRIMER PUSH) ---
+      # - name: Render Worker Task Definition
+      #   id: worker-task-def
+      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
+      #   with:
+      #     task-definition: task-definition-worker.json
+      #     container-name: logitrack-worker
+      #     image: ${{ steps.login-ecr.outputs.registry }}/logitrack-web:${{ github.sha }}
+      #     # INJECT SECRETS DYNAMICALLY HERE
+      #     environment-variables: |
+      #       SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
+      #       DB_PASSWORD=${{ secrets.DB_PASSWORD }}
 
-      - name: Deploy Worker Service
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.worker-task-def.outputs.task-definition }}
-          service: logitrack-celery-service 
-          cluster: logitrack-cluster 
-          wait-for-service-stability: true
+      # - name: Deploy Worker Service
+      #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      #   with:
+      #     task-definition: ${{ steps.worker-task-def.outputs.task-definition }}
+      #     service: logitrack-celery-service 
+      #     cluster: logitrack-cluster 
+      #     wait-for-service-stability: true

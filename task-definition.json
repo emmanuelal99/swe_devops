@@ -21,12 +21,12 @@
       ],
       "environment": [
         { "name": "DEBUG", "value": "False" },
-        { "name": "ALLOWED_HOSTS", "value": "*" },
-        { "name": "DB_HOST", "value": "" },
-        { "name": "DB_NAME", "value": "" },
-        { "name": "DB_USER", "value": "" },
-        { "name": "DB_PASSWORD", "value": "" },
-        { "name": "CELERY_BROKER_URL", "value": "" }
+        { "name": "DB_HOST", "value": "logitrack-db.cz8gqsoc0ec9.eu-west-2.rds.amazonaws.com" },
+        { "name": "DB_PORT", "value": "5432" },
+        { "name": "DB_NAME", "value": "logitrack-db" },
+        { "name": "DB_USER", "value": "logitrack_devops" },
+        { "name": "DB_PASSWORD", "value": "DB_PASSWORD" },
+        { "name": "CELERY_BROKER_URL", "value": "redis://your-elasticache-endpoint.eu-west-2.cache.amazonaws.com:6379/0" }
       ],
       "logConfiguration": {
         "logDriver": "awslogs",
