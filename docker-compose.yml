@@ -7,7 +7,7 @@ version: '3.8'
 services:
   web:
     # We use the exact image your GitHub Action pushes to ECR
-    image: 344121726575.dkr.ecr.eu-west-2.amazonaws.com/swe_devops:latest
+    image: 200810848227.dkr.ecr.eu-west-2.amazonaws.com/swe_devops
     container_name: logitrack_web
     restart: always  # Critical: Restarts if the app crashes or EC2 reboots
     env_file:

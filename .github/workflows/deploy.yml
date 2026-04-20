@@ -2,7 +2,7 @@ name: Deploy LogiTrack to AWS EC2
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "devops-pipeline" ]
 
 jobs:
   build-and-deploy:
