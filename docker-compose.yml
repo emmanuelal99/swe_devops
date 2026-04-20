@@ -15,7 +15,7 @@ services:
 
   # 2. THE WEB SERVER (DJANGO)
   web:
-    image: YOUR_AWS_ACCOUNT_ID.dkr.ecr.eu-west-2.amazonaws.com/swe_devops:latest
+    image: 200810848227.dkr.ecr.eu-west-2.amazonaws.com/swe_devops:latest
     container_name: logitrack_web
     restart: always  
     env_file:
@@ -33,7 +33,7 @@ services:
 
   # 3. THE ASYNC WORKER (CELERY)
   worker:
-    image: YOUR_AWS_ACCOUNT_ID.dkr.ecr.eu-west-2.amazonaws.com/swe_devops:latest
+    image: 200810848227.dkr.ecr.eu-west-2.amazonaws.com/swe_devops:latest
     container_name: logitrack_celery_worker
     restart: always
     env_file:
