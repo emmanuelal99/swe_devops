@@ -4,7 +4,7 @@ from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from django.core.mail import send_mail
 from .models import Shipment, Waypoint, Facility
-from .task import send_async_email
+from .tasks import send_async_email
 
 
 def get_closest_facility(target_lat, target_lon):
