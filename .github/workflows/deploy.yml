@@ -1,12 +1,12 @@
-name: Deploy LogiTrack to AWS ECR
+name: Deploy LogiTrack to AWS EC2
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  build-and-push:
-    name: Build and Push Docker Image
+  build-and-deploy:
+    name: Build, Push, and Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -34,3 +34,27 @@ jobs:
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+      # --- EC2 DEPLOYMENT STEP ---
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          envs: ECR_REGISTRY
+          script: |
+            # 1. Login to ECR on the EC2 instance
+            aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin $ECR_REGISTRY
+            
+            # 2. Navigate to your project folder 
+            # (Make sure this path matches where you put docker-compose.yml on the server)
+            cd ~/logitrack
+            
+            # 3. Pull the fresh image we just pushed
+            docker compose pull
+            
+            # 4. Restart the containers with the new image
+            docker compose up -d --remove-orphans
