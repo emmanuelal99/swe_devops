@@ -10,7 +10,7 @@
   "containerDefinitions": [
     {
       "name": "logitrack-web",
-      "image": "344121726575.dkr.ecr.eu-north-1.amazonaws.com/logitrack-web:latest",
+      "image": "344121726575.dkr.ecr.eu-west-2.amazonaws.com/logitrack-web:latest",
       "essential": true,
       "portMappings": [
         {
