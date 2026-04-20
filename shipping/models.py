@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.conf import settings
 from django.core.mail import send_mail 
 import random
-from .task import send_async_email
+from .tasks import send_async_email
 
 # --- CUSTOM ID GENERATOR ---
 def generate_tracking_id():
