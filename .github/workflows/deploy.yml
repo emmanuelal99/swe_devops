@@ -9,6 +9,9 @@ jobs:
     name: Build, Push, and Deploy
     runs-on: ubuntu-latest
 
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -50,7 +53,6 @@ jobs:
             aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin $ECR_REGISTRY
             
             # 2. Navigate to your project folder 
-            # (Make sure this path matches where you put docker-compose.yml on the server)
             cd ~/logitrack
             
             # 3. Pull the fresh image we just pushed
@@ -58,3 +60,6 @@ jobs:
             
             # 4. Restart the containers with the new image
             docker compose up -d --remove-orphans
+            
+            # 5. Clean up old images to prevent the EC2 hard drive from filling up
+            docker image prune -af
