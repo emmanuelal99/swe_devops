@@ -174,7 +174,7 @@ if os.environ.get('AWS_STORAGE_BUCKET_NAME'):
 
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
-    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+    #STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
 
     STORAGES = {
         "default": {
@@ -199,6 +199,9 @@ CSRF_TRUSTED_ORIGINS = [url.strip() for url in csrf_origins_str.split(',') if ur
 
 # Enforce HTTPS and secure cookies ONLY in Production (when DEBUG is False)
 if not DEBUG:
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False  
+    CSRF_COOKIE_SECURE = False    
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_PRELOAD = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
