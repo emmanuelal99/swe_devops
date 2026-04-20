@@ -95,7 +95,7 @@ def submit_support_ticket(request, tracking_id):
         # Get data from the HTML form
         email = request.POST.get('customer_email')
         message = request.POST.get('customer_message')
-        
+
         # Ensure both fields are filled
         if email and message:
             SupportTicket.objects.create(
