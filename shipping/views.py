@@ -8,6 +8,8 @@ from .models import Shipment, TrackingEvent, Waypoint, SupportTicket
 from .serializers import ScannerPayloadSerializer
 from .forms import ContactMessageForm
 from .tasks import send_async_email
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 # Helper to keep the view clean
 def calculate_progress(events):
@@ -112,6 +114,7 @@ def submit_support_ticket(request, tracking_id):
 
 
 # THE API FOR THE SCANNER
+@method_decorator(csrf_exempt, name='dispatch') # allows scanner script to bypass CSRF for this endpoint
 class ScannerUpdateAPI(APIView):
     def post(self, request):
         serializer = ScannerPayloadSerializer(data=request.data)
