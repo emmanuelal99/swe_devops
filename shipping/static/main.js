@@ -361,7 +361,7 @@ function initImgParallax() {
 }
 
 /* ─── PERIODIC LIVE TOASTS ────────────────────────────────── */
-const deliveryToasts = [
+/*const deliveryToasts = [
   {msg:'Real-time tracking update'},
   {msg:'Get quote: and ready to ship smarter'},
   {msg:'24 hours support: we’re here for you'},
@@ -374,10 +374,10 @@ function scheduleDeliveryToast() {
     showToast(d.msg, d.icon, 5000);
     scheduleDeliveryToast();
   }, Math.random() * 14000 + 10000);
-}
+}*/
 
 /* ─── BOOT ────────────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', function(){
+/*document.addEventListener('DOMContentLoaded', function(){
   initTracker();
   initTilt();
   initMagnetic();
@@ -388,7 +388,7 @@ document.addEventListener('DOMContentLoaded', function(){
   if (path.indexOf('index') !== -1 || path.endsWith('/') || path === '') {
     setTimeout(function(){ showToast('Welcome to LogiTrack — <strong>220+ countries</strong> served worldwide.', '🌍', 5000); }, 1800);
   }
-});
+}); */
 
 /* ─── BOOT ────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', function(){
