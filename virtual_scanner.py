@@ -2,7 +2,7 @@ import requests
 import json
 
 # The URL of the API endpoint built in Django
-API_URL = 'http://127.0.0.1:8000/api/scanner/'
+API_URL = 'http://127.0.0.1:8000/api/scanner/', 'http://18.133.236.37/api/scanner/'
 
 def scan_package():
     print("📦 --- VIRTUAL WAREHOUSE SCANNER --- 📦")
