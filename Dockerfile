@@ -40,7 +40,6 @@ RUN adduser --system --group appuser
 
 COPY --from=builder /opt/venv /opt/venv
 
-# Copy LogiTrack code
 COPY . .
 
 RUN chown -R appuser:appuser /app
@@ -49,7 +48,5 @@ USER appuser
 
 EXPOSE 8000
 
-# 1. Uploads CSS/JS to S3
-# 2. Ensures the PostgreSQL database has the latest tables
-# 3. Boots up Gunicorn to serve traffic
+# Boots up Gunicorn to serve traffic
 CMD ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py migrate --noinput && gunicorn --bind 0.0.0.0:8000 --workers 3 mylogistics.wsgi:application"]

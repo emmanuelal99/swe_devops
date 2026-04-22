@@ -33,12 +33,11 @@ jobs:
           ECR_REPOSITORY: swe_devops
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build --no-cache -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
-      # --- EC2 DEPLOYMENT STEP ---
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         env:
@@ -49,17 +48,9 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: ECR_REGISTRY
           script: |
-            # 1. Login to ECR on the EC2 instance
             aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin $ECR_REGISTRY
-            
-            # 2. Navigate to your project folder 
             cd ~/logitrack
-            
-            # 3. Pull the fresh image we just pushed
+            docker compose down
             docker compose pull
-            
-            # 4. Restart the containers with the new image
-            docker compose up -d --remove-orphans
-            
-            # 5. Clean up old images to prevent the EC2 hard drive from filling up
+            docker compose up -d --remove-orphans --force-recreate
             docker image prune -af
