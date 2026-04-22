@@ -26,7 +26,7 @@ The infrastructure of LogiTrack was deliberately designed to separate compute, d
 
 * **Compute Layer (AWS EC2):** This application runs on a lightweight AWS EC2 instance (cost-efficient cloud computer). The EC2 server acts as a task runner, which follows instructions, holds no source code, and performs no build. It simply pulls the immutable (ready-to-run)Docker image from ECR and executes it. Memory optimisation (like 2GB swap file) is configured to ensure stable execution of Gunicorn, Celery and Redis.
 
-![Swap-File Diagram](screenshots/swap-file.png)
+![Swap-File Diagram](screenshots/swap-file.jpeg)
 * **Data Layer (AWS RDS):** To keep the application reliable, all important data, including users, tracking logs, and shipments is stored in AWS RDS, which is Amazon's managed database service. This means even if the containers are stopped or restarted, no data is ever lost.
 * **Task Queueing (Celery & Redis):** When the application needs to perform time-consuming tasks like sending emails, these are handed off to a background worker (Celery) rather than making the user wait. Redis acts as the middleman that passes these tasks across, keeping the website fast and responsive for everyone.
 * **Static Asset Management (WhiteNoise):** Instead of relying on an external S3 bucket, which introduces network latency and CI/CD IAM complexities, static files are handled by WhiteNoise. CSS and JS assets are compiled directly into the Docker image during the build phase and served autonomously.
