@@ -4,6 +4,7 @@ import json
 # The URL of the API endpoint built in Django
 API_URL = 'http://127.0.0.1:8000/api/scanner/'
 
+# This function scan packeges
 def scan_package():
     print("📦 --- VIRTUAL WAREHOUSE SCANNER --- 📦")
     tracking_id = input("Scan Barcode (Paste Tracking ID): ")
