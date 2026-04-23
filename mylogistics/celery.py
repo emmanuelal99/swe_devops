@@ -3,7 +3,7 @@ from celery import Celery, shared_task
 import time
 
 
-# Set the default Django settings module
+# Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mylogistics.settings')
 
 app = Celery('mylogistics')
