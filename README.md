@@ -50,7 +50,7 @@ Industry-standard security measures were put in place across the entire cloud en
 * **Zero-Trust Database:** The AWS RDS instance is not exposed to the public internet. Its VPC Security Group explicitly allows inbound PostgreSQL traffic (Port 5432) *only* from the specific Security Group attached to the EC2 instance.
 ![Database Security Group Diagram](screenshots/database-security-group.png)
 * **Secure Environment Variables:** Sensitive information such as passwords and database credentials are stored in a private file that is never uploaded to GitHub. This file is only loaded when the application starts up on the live server.
-* **Vulnerability Minimisation:** The Docker file is built on top of python3.12-slim, massively reducing the attack surface by excluding unnecessary OS-level packages.
+* **Vulnerability Minimisation:** The Docker file is built on top of a Python 3.12 lightweight image, massively reducing the attack surface by excluding unnecessary OS-level package.
 
 
 ---
@@ -90,8 +90,8 @@ DEBUG=True
 CSRF_TRUSTED_ORIGINS=http://localhost,http://127.0.0.1
 
 # Docker-based PostgreSQL
-DB_HOST=db
-DB_NAME=logitrack_db
+DB_HOST=db_url
+DB_NAME=yourusername_db
 DB_USER=postgres
 DB_PASSWORD=yourpassword
 DB_PORT=5432
